@@ -47,31 +47,31 @@ terraform apply            //!!a real implement of the code
     root_block_device.0.volume_type:           "standard"  
     security_groups.#:                         "<computed>"  
     source_dest_check:                         "true"  
-    subnet_id:                                 "${aws_subnet.vpc-private-subnet.id}"  
+    subnet_id:                                 "${aws_subnet.demo-private-subnet.id}"  
     tenancy:                                   "<computed>"  
     vpc_security_group_ids.#:                  "<computed>"
   
-+ aws_internet_gateway.vpc-gw  
-    vpc_id: "${aws_vpc.vpc-vpc.id}"  
++ aws_internet_gateway.demo-gw  
+    vpc_id: "${aws_vpc.demo-vpc.id}"  
   
 + aws_key_pair.auth  
     fingerprint: "<computed>"  
-    key_name:    "cq-vpc"  
+    key_name:    "demo"  
     public_key:  "-----BEGIN PUBLIC KEY——\xxxxxxxx….xxxxxx\n——END PUBLIC KEY-----"  
   
-+ aws_route.vpc_internet_route  
++ aws_route.demo_internet_route  
     destination_cidr_block:     "0.0.0.0/0"  
     destination_prefix_list_id: "<computed>"  
-    gateway_id:                 "${aws_internet_gateway.vpc-gw.id}"  
+    gateway_id:                 "${aws_internet_gateway.demo-gw.id}"  
     instance_id:                "<computed>"  
     instance_owner_id:          "<computed>"  
     nat_gateway_id:             "<computed>"  
     network_interface_id:       "<computed>"  
     origin:                     "<computed>"  
-    route_table_id:             "${aws_vpc.vpc-vpc.main_route_table_id}"  
+    route_table_id:             "${aws_vpc.demo-vpc.main_route_table_id}"  
     state:                      "<computed>"  
   
-+ aws_security_group.vpc_sec_group  
++ aws_security_group.demo_sec_group  
     description:                          "Defualt sec group for scf"  
     egress.#:                             "1"  
     egress.482069346.cidr_blocks.#:       "1"  
@@ -99,15 +99,15 @@ terraform apply            //!!a real implement of the code
     ingress.2541437006.to_port:           "22"  
     name:                                 "vpc_sec_group"  
     owner_id:                             "<computed>"  
-    vpc_id:                               "${aws_vpc.vpc-vpc.id}"
+    vpc_id:                               "${aws_vpc.demo-vpc.id}"
   
-+ aws_subnet.vpc-private-subnet  
++ aws_subnet.demo-private-subnet  
     availability_zone:       "<computed>"  
     cidr_block:              "130.95.1.0/24"  
     map_public_ip_on_launch: "true"  
-    vpc_id:                  "${aws_vpc.vpc-vpc.id}"  
+    vpc_id:                  "${aws_vpc.demo-vpc.id}"  
   
-+ aws_vpc.vpc-vpc  
++ aws_vpc.demo-vpc  
     cidr_block:                "130.95.0.0/16"  
     default_network_acl_id:    "<computed>"  
     default_route_table_id:    "<computed>"  

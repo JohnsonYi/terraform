@@ -4,35 +4,35 @@ provider "aws" {
 }
 
 # Create a SCF VPC to launch our instances into
-resource "aws_vpc" "scf-kick-off-vpc" {
-    cidr_block = "172.65.0.0/16"
+resource "aws_vpc" "demo-vpc" {
+    cidr_block = "130.95.0.0/16"
 }
 
 # Create an internet gateway to give our subnet access to the outside world
-resource "aws_internet_gateway" "scf-kick-off-gw" {
-    vpc_id = "${aws_vpc.scf-kick-off-vpc.id}"
+resource "aws_internet_gateway" "demo-gw" {
+    vpc_id = "${aws_vpc.demo-vpc.id}"
 }
 
 # Grant the VPC internet access on its main route table
-resource "aws_route" "scf-kick-off_internet_route" {
-  route_table_id         = "${aws_vpc.scf-kick-off-vpc.main_route_table_id}"
+resource "aws_route" "demo_internet_route" {
+  route_table_id         = "${aws_vpc.demo-vpc.main_route_table_id}"
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = "${aws_internet_gateway.scf-kick-off-gw.id}"
+  gateway_id             = "${aws_internet_gateway.demo-gw.id}"
 }
 
 # Create a subnet to launch our instances into
-resource "aws_subnet" "scf-kick-off-private-subnet" {
-  vpc_id                  = "${aws_vpc.scf-kick-off-vpc.id}"
-  cidr_block              = "172.65.1.0/24"
+resource "aws_subnet" "demo-private-subnet" {
+  vpc_id                  = "${aws_vpc.demo-vpc.id}"
+  cidr_block              = "130.95.1.0/24"
   map_public_ip_on_launch = true
 }
 
 # Our default security group to access
 # the instances over SSH and HTTP
-resource "aws_security_group" "scf-kick-off_sec_group" {
-  name        = "scf-kick-off_sec_group"
+resource "aws_security_group" "demo_sec_group" {
+  name        = "demo_sec_group"
   description = "Defualt sec group for scf"
-  vpc_id      = "${aws_vpc.scf-kick-off-vpc.id}"
+  vpc_id      = "${aws_vpc.demo-vpc.id}"
 
   # SSH access from anywhere
   ingress {
@@ -85,12 +85,12 @@ resource "aws_instance" "jenkins" {
   key_name = "${aws_key_pair.auth.id}"
 
   # Our Security group to allow HTTP and SSH access
-  vpc_security_group_ids = ["${aws_security_group.scf-kick-off_sec_group.id}"]
+  vpc_security_group_ids = ["${aws_security_group.demo_sec_group.id}"]
 
   # We're going to launch into the same subnet as our ELB. In a production
   # environment it's more common to have a separate private subnet for
   # backend instances.
-  subnet_id = "${aws_subnet.scf-kick-off-private-subnet.id}"
+  subnet_id = "${aws_subnet.demo-private-subnet.id}"
 
   # Associate with public ip
   associate_public_ip_address = true

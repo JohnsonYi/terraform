@@ -1,10 +1,10 @@
 variable "public_key_path" {
-  default = "~/.ssh/cq-scf-kick-off.pub"
+  default = "~/.ssh/demo.pub"
   description = "Public key path"
 }
 
 variable "key_name" {
-  default = "cq-scf-kick-off"
+  default = "demo"
   description = "Desired name of AWS key pair"
 }
 
@@ -16,6 +16,6 @@ variable "aws_region" {
 # Ubuntu 16.04 LTS (x64)
 variable "aws_amis" {
   default = {
-    cn-north-1 = "ami-002efa6d"
+    cn-north-1 = "ami-00xxxxd"    #require update
   }
 }
