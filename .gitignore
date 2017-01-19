@@ -1,5 +1,5 @@
 # Compiled files
 *.tfstate
 *.tfstate.backup
-.terraform/*
+.terraform
 .DS_Store
